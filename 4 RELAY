@@ -1,0 +1,101 @@
+#include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
+#include <UniversalTelegramBot.h>
+
+// ubah nilai-nilai berikut sesuai dengan kebutuhan Anda
+const char* ssid = "SSID_WIFI_ANDA";
+const char* password = "PASSWORD_WIFI_ANDA";
+const char* token = "TOKEN_BOT_TELEGRAM_ANDA";
+const char* telegram_id = "ID_TELEGRAM_ANDA";
+
+// pin relay
+const int relay1Pin = D1;
+const int relay2Pin = D2;
+const int relay3Pin = D3;
+const int relay4Pin = D4;
+
+// fungsi untuk menangani pesan yang diterima dari Telegram
+void handleMessage(String chat_id, String text) {
+  // jika pesan adalah "1", nyalakan relay 1
+  if (text == "1") {
+    // nyalakan relay 1
+    digitalWrite(relay1Pin, HIGH);
+    // kirim pesan balasan
+    bot.sendMessage(chat_id, "Relay 1 dinyalakan");
+    // kirim pesan ke ID Telegram Anda
+    bot.sendMessage(telegram_id, "Relay 1 dinyalakan");
+  }
+
+  // jika pesan adalah "2", nyalakan relay 2
+  else if (text == "2") {
+    // nyalakan relay 2
+    digitalWrite(relay2Pin, HIGH);
+    // kirim pesan balasan
+    bot.sendMessage(chat_id, "Relay 2 dinyalakan");
+    // kirim pesan ke ID Telegram Anda
+    bot.sendMessage(telegram_id, "Relay 2 dinyalakan");
+  }
+
+  // jika pesan adalah "3", nyalakan relay 3
+  else if (text == "3") {
+    // nyalakan relay 3
+    digitalWrite(relay3Pin, HIGH);
+    // kirim pesan balasan
+    bot.sendMessage(chat_id, "Relay 3 dinyalakan");
+    // kirim pesan ke ID Telegram Anda
+    bot.sendMessage(telegram_id, "Relay 3 dinyalakan");
+  }
+
+  // jika pesan adalah "4", nyalakan relay 4
+  else if (text == "4") {
+    // nyalakan relay 4
+    digitalWrite(relay4Pin, HIGH);
+    // kirim pesan balasan
+    bot.sendMessage(chat_id, "Relay 4 dinyalakan");
+    // kirim pesan ke ID Telegram Anda
+    bot.sendMessage(telegram_id, "Relay 4 dinyalakan");
+  }
+
+  // jika pesan adalah "0", matikan semua relay
+  else if (text == "0") {
+    // matikan semua relay
+    digitalWrite(relay1Pin, LOW);
+    digitalWrite(relay2Pin, LOW);
+    digitalWrite(relay3Pin, LOW);
+    digitalWrite(relay4Pin, LOW);
+    // kirim pesan balasan
+    bot.sendMessage(chat_id, "Semua relay dimatikan");
+    // kirim pesan ke ID Telegram Anda
+    bot.sendMessage(telegram_id, "Semua relay dimatikan");
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial);
+
+  // koneksi ke jaringan Wi-Fi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi terkoneksi");
+
+  // daftarkan bot ke Telegram
+  bot.setWebhook("https://your_domain/bot_token");
+
+  // mulai mendengarkan pesan
+  bot.onMessage(handleMessage);
+
+  // atur pin relay sebagai output
+  pinMode(relay1Pin, OUTPUT);
+  pinMode(relay2Pin, OUTPUT);
+  pinMode(relay3Pin, OUTPUT);
+  pinMode(relay4Pin, OUTPUT);
+}
+
+void loop() {
+  // lakukan sesuatu
+}
